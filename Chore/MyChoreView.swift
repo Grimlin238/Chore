@@ -7,14 +7,43 @@
 
 import SwiftUI
 
-struct MyCHoreView: View {
+struct MyChoreView: View {
+    @EnvironmentObject var choreStore: ChoreStore
     
     var body: some View {
         
-        VStack {
+        if choreStore.choreList.isEmpty {
             
-            Text("Nothing yet. But there will be =>")
-            
+            VStack {
+                    
+                Text("You don't have any chores.")
+                
+            }
+                
+            } else {
+
+                VStack {
+                    
+                    List {
+                        
+                        ForEach(choreStore.choreList) {
+                            
+                            chore in
+                            ChoreView(chore: chore.chore, due: chore.due, at: chore.at)
+                            
+                        }
+                    }
+                }
+            }
         }
+    }
+        
+struct MyChoreView_preview: PreviewProvider {
+    
+    static var previews: some View {
+        
+        MyChoreView()
+            .environmentObject(ChoreStore())
+        
     }
 }

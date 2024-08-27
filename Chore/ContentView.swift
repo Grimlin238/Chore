@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var choreStore: ChoreStore
     var body: some View {
         TabView {
-            MyCHoreView()
+            MyChoreView()
                 .tabItem {
                     
                     Text("My Chores")
@@ -20,7 +22,7 @@ struct ContentView: View {
             AddChoreView()
                 .tabItem {
                     
-                    Text("Add CHore")
+                    Text("Add Chore")
                     
                 }
             
@@ -33,8 +35,13 @@ struct ContentView: View {
         }
     }
 }
-
-#Preview {
-    ContentView()
+ 
+struct ContentView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        
+        ContentView()
+            .environmentObject(ChoreStore())
+        
+    }
 }
-

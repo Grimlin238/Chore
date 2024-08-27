@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MoreOptionsView: View {
+    @EnvironmentObject var choreStore: ChoreStore
     
     var body: some View {
         
@@ -16,5 +17,15 @@ struct MoreOptionsView: View {
             Text("Nothing yet. But there will be =>")
             
         }
+    }
+}
+
+struct MoreOptionsView_previews: PreviewProvider {
+    
+    static var previews: some View {
+        
+        MoreOptionsView()
+            .environmentObject(ChoreStore())
+        
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B3B06D42C7E2D2900F3D872 /* Chore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B06D32C7E2D2900F3D872 /* Chore.swift */; };
+		1B3B06D62C7E2DBD00F3D872 /* ChoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B06D52C7E2DBD00F3D872 /* ChoreView.swift */; };
+		1B3B06D82C7E2FA400F3D872 /* ChoreStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B06D72C7E2FA400F3D872 /* ChoreStore.swift */; };
 		1B4125472C7C7C5E00E1AE58 /* ChoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4125462C7C7C5E00E1AE58 /* ChoreApp.swift */; };
 		1B4125492C7C7C5E00E1AE58 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4125482C7C7C5E00E1AE58 /* ContentView.swift */; };
 		1B41254B2C7C7C6000E1AE58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B41254A2C7C7C6000E1AE58 /* Assets.xcassets */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B3B06D32C7E2D2900F3D872 /* Chore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chore.swift; sourceTree = "<group>"; };
+		1B3B06D52C7E2DBD00F3D872 /* ChoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreView.swift; sourceTree = "<group>"; };
+		1B3B06D72C7E2FA400F3D872 /* ChoreStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreStore.swift; sourceTree = "<group>"; };
 		1B4125432C7C7C5E00E1AE58 /* Chore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B4125462C7C7C5E00E1AE58 /* ChoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreApp.swift; sourceTree = "<group>"; };
 		1B4125482C7C7C5E00E1AE58 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,6 +66,9 @@
 				1B4125462C7C7C5E00E1AE58 /* ChoreApp.swift */,
 				1B4125482C7C7C5E00E1AE58 /* ContentView.swift */,
 				1B4125542C7C7D8F00E1AE58 /* MyChoreView.swift */,
+				1B3B06D32C7E2D2900F3D872 /* Chore.swift */,
+				1B3B06D52C7E2DBD00F3D872 /* ChoreView.swift */,
+				1B3B06D72C7E2FA400F3D872 /* ChoreStore.swift */,
 				1B4125562C7C7E2900E1AE58 /* AddChoreView.swift */,
 				1B4125582C7C7EB600E1AE58 /* MoreOptionsView.swift */,
 				1B41254A2C7C7C6000E1AE58 /* Assets.xcassets */,
@@ -147,8 +156,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B4125492C7C7C5E00E1AE58 /* ContentView.swift in Sources */,
+				1B3B06D82C7E2FA400F3D872 /* ChoreStore.swift in Sources */,
 				1B4125552C7C7D8F00E1AE58 /* MyChoreView.swift in Sources */,
+				1B3B06D62C7E2DBD00F3D872 /* ChoreView.swift in Sources */,
 				1B4125572C7C7E2900E1AE58 /* AddChoreView.swift in Sources */,
+				1B3B06D42C7E2D2900F3D872 /* Chore.swift in Sources */,
 				1B4125592C7C7EB600E1AE58 /* MoreOptionsView.swift in Sources */,
 				1B4125472C7C7C5E00E1AE58 /* ChoreApp.swift in Sources */,
 			);

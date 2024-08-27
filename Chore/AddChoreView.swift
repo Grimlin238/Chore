@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddChoreView: View {
+    @EnvironmentObject var choreStore: ChoreStore
     
     var body: some View {
         
@@ -16,5 +17,15 @@ struct AddChoreView: View {
             Text("Nothing yet. But there will be =>")
             
         }
+    }
+}
+
+struct AddChoreView_preview: PreviewProvider {
+    
+    static var previews: some View {
+        
+        AddChoreView()
+            .environmentObject(ChoreStore())
+        
     }
 }
