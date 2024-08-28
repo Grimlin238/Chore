@@ -45,7 +45,7 @@ struct AddChoreView: View {
     private var addButtonView: some View {
         VStack {
             
-            Button("Add Chore") {
+            Button("Add to Chores") {
                 showSuccessConformation = true
                 
             }
