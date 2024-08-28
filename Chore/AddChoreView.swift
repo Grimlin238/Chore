@@ -46,7 +46,18 @@ struct AddChoreView: View {
         VStack {
             
             Button("Add to Chores") {
+                
+                saveChore(chore: userInput)
+                
                 showSuccessConformation = true
+                
+            }
+            
+            .disabled(userInput.isEmpty || userInput == " ")
+            
+            .alert(isPresented: $showSuccessConformation) {
+                
+                Alert(title: Text("Success =>"), message: Text("Your chore has been successfully saved."), dismissButton: .default(Text("Ok! Got it!")))
                 
             }
             
@@ -67,6 +78,41 @@ struct AddChoreView: View {
             addButtonView
             
         }
+    }
+    
+    func toString_Date(date: Date) -> String {
+        
+        let formattedDate = DateFormatter()
+        
+        formattedDate.dateStyle = .medium
+        
+        formattedDate.timeStyle = .none
+        
+        return formattedDate.string(from: selectedDate)
+        
+    }
+    
+    func toString_Time(date: Date) -> String {
+        
+        let formattedTime = DateFormatter()
+        
+        formattedTime.dateStyle = .none
+        
+        formattedTime.timeStyle = .short
+        
+        return formattedTime.string(from: selectedTime)
+        
+    }
+    
+    func saveChore(chore: String) {
+        
+        let savedChore = userInput
+        let date = toString_Date(date: selectedDate)
+        
+        let time = toString_Time(date: selectedTime)
+        
+        choreStore.addToChoreList(chore: savedChore, due: date, at: time)
+        
     }
 }
 
