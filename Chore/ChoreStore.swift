@@ -17,4 +17,13 @@ class ChoreStore: ObservableObject {
         
     }
     
+    func removeFromChoreList(chore: String, due: String, at: String) {
+        
+        if let index = choreList.firstIndex(of: Chore(chore: chore, due: due, at: at)) {
+            
+            choreList.remove(at: index)
+            
+        }
+    }
+    
 }

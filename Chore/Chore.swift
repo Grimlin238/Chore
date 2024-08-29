@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Chore: Identifiable {
+struct Chore: Identifiable, Equatable {
     let id: UUID
     let chore: String
     let due: String
@@ -18,5 +18,11 @@ struct Chore: Identifiable {
         self.chore = chore
         self.due = due
         self.at = at
+    }
+    
+    static func == (lhs: Chore, rhs: Chore) -> Bool {
+        
+        return lhs.chore == rhs.chore && lhs.due == rhs.due && lhs.at == rhs.at
+        
     }
 }

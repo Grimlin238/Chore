@@ -32,6 +32,20 @@ struct MyChoreView: View {
                             ChoreView(chore: chore.chore, due: chore.due, at: chore.at)
                             
                         }
+                        
+                        .onDelete {
+                            
+                            indexSet in
+                            
+                            indexSet.forEach {
+                                
+                                index in
+                                let chore = choreStore.choreList[index]
+                                
+                                choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at)
+                                
+                            }
+                        }
                     }
                 }
             }
