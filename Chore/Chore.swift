@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Chore: Identifiable, Equatable {
+struct Chore: Identifiable, Equatable, Codable {
     let id: UUID
     let chore: String
     let due: String

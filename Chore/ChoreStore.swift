@@ -9,11 +9,34 @@ import Foundation
 
 class ChoreStore: ObservableObject {
     
+    private var fileUrl: URL {
+        
+        let fileManager = FileManager.default
+        
+        let documentDirectories = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        let myDocumentDirectory = documentDirectories.first!
+        
+        let choreFileUrl = myDocumentDirectory.appendingPathComponent("chores.json")
+        
+        return choreFileUrl
+        
+    }
+        
     @Published var choreList: [Chore] = []
+    
+    init() {
+        
+        loadChores()
+        
+        
+    }
     
     func addToChoreList(chore: String, due: String, at: String) {
         
         choreList.append(Chore(chore: chore, due: due, at: at))
+        
+        saveChores()
         
     }
     
@@ -23,6 +46,48 @@ class ChoreStore: ObservableObject {
             
             choreList.remove(at: index)
             
+        }
+        
+        saveChores()
+        
+    }
+    
+    private func saveChores() {
+        
+        do {
+            
+            let encoder = JSONEncoder()
+            
+            let data = try encoder.encode(choreList)
+            
+            try data.write(to: fileUrl)
+            
+        }
+        
+        catch {
+            
+            print("There was an issue detected in ChoreStore class. Issue: \(error)")
+            
+        }
+               
+    }
+    
+    private func loadChores() {
+        
+        do {
+            
+            let data = try Data(contentsOf: fileUrl)
+            
+            let decoder = JSONDecoder()
+            
+            choreList = try decoder.decode([Chore].self, from: data)
+            
+            
+        }
+        
+        catch {
+            
+            print("Error loading tasks. issue: \(error)")
         }
     }
     
