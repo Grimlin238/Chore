@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddChoreView: View {
     @EnvironmentObject var choreStore: ChoreStore
+    @EnvironmentObject var notificationManager: NotificationManager
     
     @State private var selectedDate = Date()
     @State private var selectedTime = Date()
@@ -111,8 +112,15 @@ struct AddChoreView: View {
         
         let time = toString_Time(date: selectedTime)
         
-        choreStore.addToChoreList(chore: savedChore, due: date, at: time)
-        
+        if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
+            
+            print(combinedDate)
+            
+            notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate)
+            
+            choreStore.addToChoreList(chore: savedChore, due: date, at: time)
+            
+        }
     }
 }
 
@@ -122,6 +130,8 @@ struct AddChoreView_preview: PreviewProvider {
         
     AddChoreView()
             .environmentObject(ChoreStore())
+            .environmentObject(NotificationManager())
+        
         
     }
 }

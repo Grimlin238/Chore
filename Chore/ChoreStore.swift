@@ -91,4 +91,28 @@ class ChoreStore: ObservableObject {
         }
     }
     
+    func combine_Date(date: Date, time: Date) -> Date? {
+        
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
+        
+        var combinedComponents = DateComponents()
+        
+        combinedComponents.year = dateComponents.year
+        
+        combinedComponents.month = dateComponents.month
+        combinedComponents.day = dateComponents.day
+        
+        combinedComponents.hour = timeComponents.hour
+        
+        combinedComponents.minute = timeComponents.minute
+        
+        combinedComponents.second = timeComponents.second
+        
+        return calendar.date(from: combinedComponents)
+        
+    }
+    
 }

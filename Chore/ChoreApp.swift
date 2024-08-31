@@ -12,10 +12,20 @@ struct ChoreApp: App {
     
     @StateObject var choreStore = ChoreStore()
     
+    @StateObject var notificationManager = NotificationManager()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(choreStore)
+            
+                .environmentObject(notificationManager)
+            
+                .onAppear {
+                    
+                    notificationManager.requestPermission()
+                    
+                }
         }
     }
 }

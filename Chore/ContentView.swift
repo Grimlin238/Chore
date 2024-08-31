@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var choreStore: ChoreStore
+    @EnvironmentObject var notificationManager: NotificationManager
+    
     var body: some View {
         TabView {
             MyChoreView()
@@ -42,6 +44,7 @@ struct ContentView_Previews: PreviewProvider {
         
         ContentView()
             .environmentObject(ChoreStore())
+            .environmentObject(NotificationManager())
         
     }
 }
