@@ -70,7 +70,7 @@ struct AddChoreView: View {
         
         VStack {
             
-             textFieldView
+            textFieldView
             
             dateSelectionView
             
@@ -79,42 +79,17 @@ struct AddChoreView: View {
             addButtonView
             
         }
-    }
-    
-    func toString_Date(date: Date) -> String {
-        
-        let formattedDate = DateFormatter()
-        
-        formattedDate.dateStyle = .medium
-        
-        formattedDate.timeStyle = .none
-        
-        return formattedDate.string(from: selectedDate)
-        
-    }
-    
-    func toString_Time(date: Date) -> String {
-        
-        let formattedTime = DateFormatter()
-        
-        formattedTime.dateStyle = .none
-        
-        formattedTime.timeStyle = .short
-        
-        return formattedTime.string(from: selectedTime)
         
     }
     
     func saveChore(chore: String) {
         
         let savedChore = userInput
-        let date = toString_Date(date: selectedDate)
+        let date = choreStore.toString_Date(date: selectedDate)
         
-        let time = toString_Time(date: selectedTime)
+        let time = choreStore.toString_Time(date: selectedTime)
         
         if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
-            
-            print(combinedDate)
             
             let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate)
             

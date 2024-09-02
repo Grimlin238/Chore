@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import UserNotifications
-import SwiftUI
-
 
 class ChoreStore: ObservableObject {
     
@@ -55,7 +52,8 @@ class ChoreStore: ObservableObject {
             
             let notificationIds = choreList[index].notificationIds
             
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notificationIds)
+            notificationManager.cancelNotification(identifier: notificationIds)
+            
             
             choreList.remove(at: index)
             
@@ -125,6 +123,30 @@ class ChoreStore: ObservableObject {
         combinedComponents.second = timeComponents.second
         
         return calendar.date(from: combinedComponents)
+        
+    }
+    
+    func toString_Date(date: Date) -> String {
+        
+        let formattedDate = DateFormatter()
+        
+        formattedDate.dateStyle = .medium
+        
+        formattedDate.timeStyle = .none
+        
+        return formattedDate.string(from: date)
+        
+    }
+    
+    func toString_Time(date: Date) -> String {
+        
+        let formattedTime = DateFormatter()
+        
+        formattedTime.dateStyle = .none
+        
+        formattedTime.timeStyle = .short
+        
+        return formattedTime.string(from: date)
         
     }
     

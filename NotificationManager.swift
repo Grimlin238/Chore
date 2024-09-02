@@ -77,4 +77,10 @@ class NotificationManager: ObservableObject {
         
     }
     
+    func cancelNotification(identifier: [String]) {
+        
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifier)
+        
+    }
+    
 }
