@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import UserNotifications
+import SwiftUI
+
 
 class ChoreStore: ObservableObject {
     
@@ -25,6 +28,8 @@ class ChoreStore: ObservableObject {
         
     @Published var choreList: [Chore] = []
     
+    let notificationManager = NotificationManager()
+    
     init() {
         
         loadChores()
@@ -32,9 +37,9 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func addToChoreList(chore: String, due: String, at: String) {
+    func addToChoreList(chore: String, due: String, at: String, notificationIds: [String]) {
         
-        choreList.append(Chore(chore: chore, due: due, at: at))
+        choreList.append(Chore(chore: chore, due: due, at: at, notificationIds: notificationIds))
         
         saveChores()
         
@@ -42,7 +47,15 @@ class ChoreStore: ObservableObject {
     
     func removeFromChoreList(chore: String, due: String, at: String) {
         
-        if let index = choreList.firstIndex(of: Chore(chore: chore, due: due, at: at)) {
+        if let index = choreList.firstIndex(where: {
+            
+            $0.chore == chore && $0.due == due && $0.at == at
+            
+        }) {
+            
+            let notificationIds = choreList[index].notificationIds
+            
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notificationIds)
             
             choreList.remove(at: index)
             

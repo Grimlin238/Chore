@@ -19,7 +19,10 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func scheduleNotification(title: String, body: String, eventDate: Date) {
+    func scheduleNotification(title: String, body: String, eventDate: Date) -> [String] {
+        
+        var notificationIds = [String]()
+        
         let intervals: [TimeInterval] = [
             -14 * 24 * 60 * 60,
              -7 * 24 * 60 * 60,
@@ -32,16 +35,23 @@ class NotificationManager: ObservableObject {
         
         for interval in intervals {
             if let reminderDate = Calendar.current.date(byAdding: .second, value: Int(interval), to: eventDate) {
-                scheduleNotificationAtDate(title: title, body: body, date: reminderDate)
+                let id = scheduleNotificationAtDate(title: title, body: body, date: reminderDate)
+                
+                notificationIds.append(id)
+                
             }
         }
+        
+        return notificationIds
+        
     }
     
-    private func scheduleNotificationAtDate(title: String, body: String, date: Date) {
+    private func scheduleNotificationAtDate(title: String, body: String, date: Date) -> String {
         let timeInterval = date.timeIntervalSinceNow
         guard timeInterval > 0 else {
             print("Notification not scheduled because the time interval is not greater than 0.")
-            return
+            return ""
+        
         }
         
         let content = UNMutableNotificationContent()
@@ -51,7 +61,9 @@ class NotificationManager: ObservableObject {
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let identifier = UUID().uuidString
+        
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
@@ -60,6 +72,9 @@ class NotificationManager: ObservableObject {
                 print("Notification scheduled for: \(date)")
             }
         }
+        
+        return identifier
+        
     }
     
 }

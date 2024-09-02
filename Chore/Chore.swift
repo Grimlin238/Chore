@@ -12,12 +12,14 @@ struct Chore: Identifiable, Equatable, Codable {
     let chore: String
     let due: String
     let at: String
+    var notificationIds: [String]
     
-    init(chore: String, due: String, at: String) {
+    init(chore: String, due: String, at: String, notificationIds: [String]) {
         id = UUID()
         self.chore = chore
         self.due = due
         self.at = at
+        self.notificationIds = notificationIds
     }
     
     static func == (lhs: Chore, rhs: Chore) -> Bool {

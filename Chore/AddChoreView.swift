@@ -116,9 +116,9 @@ struct AddChoreView: View {
             
             print(combinedDate)
             
-            notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate)
+            let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate)
             
-            choreStore.addToChoreList(chore: savedChore, due: date, at: time)
+            choreStore.addToChoreList(chore: savedChore, due: date, at: time, notificationIds: notificationIds)
             
         }
     }
