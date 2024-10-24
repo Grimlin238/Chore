@@ -15,6 +15,8 @@ struct AddChoreView: View {
     @State private var selectedTime = Date()
     @State private var userInput: String = ""
     @State private var showSuccessConformation = false
+    
+    @State private var recurrsive: Repeating = .none
     private var textFieldView: some View {
         
         VStack {
@@ -41,6 +43,25 @@ struct AddChoreView: View {
             
         }
         
+    }
+    
+    private var recurssionView: some View {
+        
+        VStack {
+            
+            Text("Recurring?")
+                .accessibilityAddTraits(.isHeader)
+            Picker("Repeating?", selection:  $recurrsive) {
+                
+                ForEach(Repeating.allCases, id: \.self) { recurrance in
+                    
+                    Text(recurrance.rawValue)
+                    
+                }
+            }
+            
+            .pickerStyle(SegmentedPickerStyle())
+        }
     }
     
     private var addButtonView: some View {
@@ -76,6 +97,8 @@ struct AddChoreView: View {
             
             timeSelectionView
             
+            recurssionView
+            
             addButtonView
             
         }
@@ -89,11 +112,20 @@ struct AddChoreView: View {
         
         let time = choreStore.toString_Time(date: selectedTime)
         
+        var eventRepeating: String = ""
+        
+        if recurrsive == .daily {
+            
+            eventRepeating = "(Repeating daily)"
+            
+        }
+        
+        
         if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
             
-            let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate)
+            let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate, recurring: recurrsive)
             
-            choreStore.addToChoreList(chore: savedChore, due: date, at: time, notificationIds: notificationIds)
+            choreStore.addToChoreList(chore: savedChore, due: date + " " + eventRepeating, at: time, notificationIds: notificationIds)
             
         }
     }
