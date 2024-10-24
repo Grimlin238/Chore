@@ -74,7 +74,7 @@ class NotificationManager: ObservableObject {
         
         switch accurring {
         case .day:
-            triggerDateComponents.day = Calendar.current.component(.day, from: eventDate)
+            break
         case .weekOfYear:
             triggerDateComponents.weekday = Calendar.current.component(.weekday, from: eventDate)
         case .month:
