@@ -120,6 +120,12 @@ struct AddChoreView: View {
             
         }
         
+        if recurrsive == .weekly {
+            
+            eventRepeating = "(Repeating Weekly)"
+            
+        }
+        
         
         if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
             

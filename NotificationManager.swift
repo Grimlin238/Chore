@@ -52,6 +52,12 @@ class NotificationManager: ObservableObject {
             
             notificationIds.append(id)
             
+        case .weekly:
+            
+            let id = scheduleRepeatingNotification(title: title, body: body, eventDate: eventDate, accurring: .weekOfYear)
+            
+            notificationIds.append(id)
+            
         }
         
         return notificationIds
