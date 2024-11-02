@@ -24,14 +24,14 @@ struct ContentView: View {
             AddChoreView()
                 .tabItem {
                     
-                    Text("Add Chore")
+                    Text("Create a Chore")
                     
                 }
             
             MoreOptionsView()
                 .tabItem {
                     
-                    Text("More options")
+                    Text("More")
                     
                 }
         }
