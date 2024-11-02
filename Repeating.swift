@@ -15,4 +15,7 @@ enum Repeating: String, CaseIterable, Codable {
     
     case weekly = "Weekly"
     
+    case monthly = "Monthly"
+    
+    
 }

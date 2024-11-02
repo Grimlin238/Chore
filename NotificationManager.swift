@@ -58,10 +58,65 @@ class NotificationManager: ObservableObject {
             
             notificationIds.append(id)
             
+        case .monthly:
+            let id = scheduleMonthlyNotification(title: title, body: body, eventDate: eventDate)
+            
+            notificationIds.append(id)
+            
         }
         
         return notificationIds
         
+    }
+    
+    private func adjustDate(eventDate: Date) -> Date {
+        
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: eventDate)
+            
+        if let  month = dateComponents.month, let year = dateComponents.year {
+            
+            let range = Calendar.current.range(of: .day, in: .month, for: eventDate)
+            
+            let lastDay = range?.count ?? 28
+            
+            if dateComponents.day! ?? 1 > lastDay {
+                
+                dateComponents.day = lastDay
+                
+            }
+        }
+        
+        return Calendar.current.date(from: dateComponents) ?? eventDate
+        
+    }
+    
+    private func scheduleMonthlyNotification(title: String, body: String, eventDate: Date) -> String {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+
+        // Adjust the date to handle edge cases (e.g., 31st in months with fewer days)
+        let adjustedDate = adjustDate(eventDate: eventDate)
+        var triggerDateComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: adjustedDate)
+
+        print("Monthly notification set for day \(triggerDateComponents.day ?? -1) at \(triggerDateComponents.hour ?? -1):\(triggerDateComponents.minute ?? -1)")
+
+        // Monthly trigger only needs day, hour, and minute components
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
+        let identifier = UUID().uuidString
+
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling monthly notification: \(error.localizedDescription)")
+            } else {
+                print("Monthly notification scheduled successfully.")
+            }
+        }
+
+        return identifier
     }
     
     private func scheduleRepeatingNotification(title: String, body: String, eventDate: Date, accurring: NSCalendar.Unit) -> String {
@@ -71,6 +126,7 @@ class NotificationManager: ObservableObject {
         content.sound = .default
         
         let timeInterval = eventDate.timeIntervalSinceNow
+                
         guard timeInterval > 0 else {
             print("Cannot schedule notifications for a past event date.")
             return ""
@@ -83,8 +139,7 @@ class NotificationManager: ObservableObject {
             break
         case .weekOfYear:
             triggerDateComponents.weekday = Calendar.current.component(.weekday, from: eventDate)
-        case .month:
-            triggerDateComponents.day = Calendar.current.component(.day, from: eventDate)
+            
         default:
             break
         }
