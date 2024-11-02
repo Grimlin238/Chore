@@ -70,39 +70,31 @@ class NotificationManager: ObservableObject {
     }
     
     private func adjustDate(eventDate: Date) -> Date {
-        
+    
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: eventDate)
+        
+        if let month = dateComponents.month, let year = dateComponents.year {
+            let lastDayOfMonth = Calendar.current.range(of: .day, in: .month, for: eventDate)?.last ?? 28
             
-        if let  month = dateComponents.month, let year = dateComponents.year {
-            
-            let range = Calendar.current.range(of: .day, in: .month, for: eventDate)
-            
-            let lastDay = range?.count ?? 28
-            
-            if dateComponents.day! ?? 1 > lastDay {
-                
-                dateComponents.day = lastDay
-                
+            if (dateComponents.day ?? 1) > lastDayOfMonth {
+                dateComponents.day = lastDayOfMonth
             }
         }
         
         return Calendar.current.date(from: dateComponents) ?? eventDate
-        
     }
-    
+
     private func scheduleMonthlyNotification(title: String, body: String, eventDate: Date) -> String {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
 
-        // Adjust the date to handle edge cases (e.g., 31st in months with fewer days)
         let adjustedDate = adjustDate(eventDate: eventDate)
-        var triggerDateComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: adjustedDate)
+        let triggerDateComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: adjustedDate)
 
         print("Monthly notification set for day \(triggerDateComponents.day ?? -1) at \(triggerDateComponents.hour ?? -1):\(triggerDateComponents.minute ?? -1)")
 
-        // Monthly trigger only needs day, hour, and minute components
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
         let identifier = UUID().uuidString
 
