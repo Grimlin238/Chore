@@ -10,11 +10,22 @@ import SwiftUI
 struct MoreOptionsView: View {
     @EnvironmentObject var choreStore: ChoreStore
     
+    let optionList = ["Help", "Get Support"]
+    
     var body: some View {
         
         VStack {
             
-            Text("Nothing yet. But there will be =>")
+            List {
+                
+                ForEach(optionList, id: \.self) { option in
+                    
+                    Text(option)
+                    
+                }
+            }
+            
+            Text("Version 1.0")
             
         }
     }
