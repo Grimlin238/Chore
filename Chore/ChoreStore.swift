@@ -25,6 +25,8 @@ class ChoreStore: ObservableObject {
         
     @Published var choreList: [Chore] = []
     
+    @Published var helpItems: [Help] = [Help(header: "Help", body: "Press next to move to the next help item. Press previous to go back. Tap outside this window to dismiss"), Help(header: "Deleting a chore", body: "On the My Chores tab, swipe left on a chore, then tap delete."), Help(header: "Adding a chore", body: "Tap the create a chore tab, then type something you want to be reminded about. select when you want to be reminded and if it's recurring. When you're finished, tap save to chores.")]
+    
     let notificationManager = NotificationManager()
     
     init() {
