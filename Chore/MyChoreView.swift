@@ -8,56 +8,58 @@
 import SwiftUI
 
 struct MyChoreView: View {
+    
     @EnvironmentObject var choreStore: ChoreStore
     
-    var body: some View {
+    
+    private var dueTodayView: some View {
         
-        if choreStore.choreList.isEmpty {
+        VStack {
             
-            VStack {
-                    
-                Text("You don't have any chores.")
+            Text("Due Today")
+            
+            if choreStore.choreList.isEmpty || !choreStore.dueToday_Chores(list: choreStore.choreList) {
                 
-            }
+                Text("Nothing due")
                 
             } else {
-
-                VStack {
+                
+                
+                List{
                     
-                    List {
+                    ForEach(choreStore.choreList) { chore in
                         
-                        ForEach(choreStore.choreList) {
-                            
-                            chore in
-                            ChoreView(chore: chore.chore, due: chore.due, at: chore.at)
-                            
-                        }
+                        Text("\(chore.chore). due \(chore.due) at \(chore.at)")
                         
-                        .onDelete {
+                    }
+                    
+                    .onDelete {
+                        indexSet in
+                        indexSet.forEach { index in
                             
-                            indexSet in
+                            let chore = choreStore.choreList[index]
                             
-                            indexSet.forEach {
-                                
-                                index in
-                                let chore = choreStore.choreList[index]
-                                
-                                choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at)
-                                
-                            }
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at)
+                            
                         }
                     }
                 }
             }
         }
+        
     }
+ 
+    var body: some View {
         
-struct MyChoreView_preview: PreviewProvider {
-    
-    static var previews: some View {
-        
-        MyChoreView()
-            .environmentObject(ChoreStore())
-        
+        VStack {
+            
+            dueTodayView
+            
+        }
+        .onAppear {
+            
+            choreStore.sortChoreList()
+            
+        }
     }
 }

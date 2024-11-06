@@ -22,7 +22,7 @@ class ChoreStore: ObservableObject {
         return choreFileUrl
         
     }
-        
+    
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
@@ -87,7 +87,7 @@ class ChoreStore: ObservableObject {
             print("There was an issue detected in ChoreStore class. Issue: \(error)")
             
         }
-               
+        
     }
     
     private func loadChores() {
@@ -154,6 +154,75 @@ class ChoreStore: ObservableObject {
         formattedTime.timeStyle = .short
         
         return formattedTime.string(from: date)
+        
+    }
+    
+    func isToday(day: String) -> Bool {
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "MMMM dd, yyyy h:mm a"
+        
+        guard let date = formatter.date(from: day) else {
+            
+            return false
+            
+        }
+        
+        let calendar = Calendar.current
+        
+        return calendar.isDateInToday(date)
+        
+    }
+    
+    func sortChoreList() {
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "MMMM dd, yyyy h:mm a"
+        
+        choreList.sort { item1, item2 in
+            
+            let dateString1 = "\(item1.due) \(item1.at)"
+            
+            let dateString2 = "\(item2.due) \(item2.at)"
+            
+            let date1 = formatter.date(from: dateString1)
+            
+            let date2 = formatter.date(from: dateString2)
+            
+            return date1 ?? Date() < date2 ?? Date()
+            
+        }
+        
+    }
+    
+    
+    func dueToday_Chores(list: [Chore]) -> Bool {
+    
+        var flag = false
+        
+        for each in list {
+            
+            let combinedDate = "\(each.due) \(each.at)"
+            
+            if isToday(day: combinedDate) {
+                
+            
+                flag = true
+                
+            }
+            
+            else {
+                
+            
+                flag = false
+                
+            }
+            
+        }
+        
+        return flag
         
     }
     

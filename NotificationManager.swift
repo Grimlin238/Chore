@@ -72,7 +72,7 @@ class NotificationManager: ObservableObject {
     
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: eventDate)
         
-        if let month = dateComponents.month, let year = dateComponents.year {
+        if let _ = dateComponents.month, let _ = dateComponents.year {
             let lastDayOfMonth = Calendar.current.range(of: .day, in: .month, for: eventDate)?.last ?? 28
             
             if (dateComponents.day ?? 1) > lastDayOfMonth {
