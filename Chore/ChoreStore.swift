@@ -200,29 +200,47 @@ class ChoreStore: ObservableObject {
     
     func dueToday_Chores(list: [Chore]) -> Bool {
     
-        var flag = false
-        
         for each in list {
             
             let combinedDate = "\(each.due) \(each.at)"
             
             if isToday(day: combinedDate) {
                 
-            
-                flag = true
+                return true
                 
             }
-            
-            else {
-                
-            
-                flag = false
-                
-            }
-            
         }
         
-        return flag
+        return false
+        
+    }
+    
+    private func getCurrentMonth() -> String {
+            
+        let date = Date()
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM"
+        
+        let currentMonth = dateFormatter.string(from: date)
+        
+        return currentMonth
+        
+    }
+    
+    func isOccupiedMonth() -> Bool {
+        
+        for each in choreList {
+            
+            if each.due.contains(getCurrentMonth()) {
+                
+                return true
+                
+            }
+        }
+        
+        return false
         
     }
     
