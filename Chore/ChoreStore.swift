@@ -259,4 +259,39 @@ class ChoreStore: ObservableObject {
         
     }
     
+    func getWeekDayFor(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        var weekDayName: String = ""
+        
+        if let dateFromString = dateFormatter.date(from: date) {
+            
+            let calendar = Calendar.current
+            let weekNumber = calendar.component(.weekday, from: dateFromString)
+            
+            weekDayName = dateFormatter.weekdaySymbols[weekNumber - 1]
+            
+        }
+     
+        return weekDayName
+        
+    }
+    
+    func hasWeeklyChores() -> Bool {
+        
+        for each in choreList {
+            
+            if each.recurring == .weekly {
+                
+                return true
+                
+            }
+        }
+        
+        return false
+        
+    }
+    
 }
