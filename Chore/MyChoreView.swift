@@ -18,7 +18,7 @@ struct MyChoreView: View {
             
             Text("Due Today")
             
-            if choreStore.choreList.isEmpty || !choreStore.dueToday_Chores(list: choreStore.choreList) {
+            if !choreStore.dueToday_Chores(list: choreStore.choreList) {
                 
                 Text("Nothing due")
                 
@@ -39,7 +39,7 @@ struct MyChoreView: View {
                             
                             let chore = choreStore.choreList[index]
                             
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
                             
                         }
                     }
@@ -54,7 +54,7 @@ struct MyChoreView: View {
             
             Text("Upcoming Chores")
             
-            if !choreStore.choreList.isEmpty && choreStore.isOccupiedMonth() {
+            if choreStore.isOccupiedMonth() {
                 
                 List {
                     
@@ -67,7 +67,7 @@ struct MyChoreView: View {
                             
                             let chore = choreStore.choreList[index]
                             
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
                             
                         }
                     }
@@ -80,6 +80,43 @@ struct MyChoreView: View {
         }
     }
     
+    private var dailyChoreView: some View {
+        
+        VStack {
+            
+            Text("Daily Chores")
+            
+            if !choreStore.choreList.isEmpty && choreStore.hasDailyChores() {
+                
+                List {
+                    
+                    ForEach(choreStore.choreList.filter { $0.recurring == .daily}) { chore in
+                        
+                        Text("\(chore.chore) -- Repeating daily at \(chore.at)")
+                    }
+                    
+                    .onDelete { indexSet in
+                        
+                        indexSet.forEach { index in
+                            
+                            let chore = choreStore.choreList[index]
+                            
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }else {
+                
+                Text("No daily Chores")
+                
+            }
+        }
+    }
+    
     var body: some View {
         
         VStack {
@@ -87,6 +124,8 @@ struct MyChoreView: View {
             dueTodayView
             
             upComingChoresView
+            
+            dailyChoreView
             
         }
         .onAppear {

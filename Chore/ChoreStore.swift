@@ -41,19 +41,19 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func addToChoreList(chore: String, due: String, at: String, notificationIds: [String]) {
+    func addToChoreList(chore: String, due: String, at: String, recurring: Repeating, notificationIds: [String]) {
         
-        choreList.append(Chore(chore: chore, due: due, at: at, notificationIds: notificationIds))
+        choreList.append(Chore(chore: chore, due: due, at: at, recurring: recurring, notificationIds: notificationIds))
         
         saveChores()
         
     }
     
-    func removeFromChoreList(chore: String, due: String, at: String) {
+    func removeFromChoreList(chore: String, due: String, at: String, recurring: Repeating) {
         
         if let index = choreList.firstIndex(where: {
             
-            $0.chore == chore && $0.due == due && $0.at == at
+            $0.chore == chore && $0.due == due && $0.at == at && $0.recurring == recurring
             
         }) {
             
@@ -233,7 +233,22 @@ class ChoreStore: ObservableObject {
         
         for each in choreList {
             
-            if each.due.contains(getCurrentMonth()) {
+            if each.due.contains(getCurrentMonth()) && !isToday(day: "\(each.due) \(each.at)") {
+                
+                return true
+                
+            }
+        }
+        
+        return false
+        
+    }
+    
+    func hasDailyChores() -> Bool {
+        
+        for each in choreList {
+            
+            if each.recurring == .daily {
                 
                 return true
                 

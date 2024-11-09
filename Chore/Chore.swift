@@ -12,13 +12,15 @@ struct Chore: Identifiable, Equatable, Codable {
     let chore: String
     let due: String
     let at: String
+    let recurring: Repeating
     var notificationIds: [String]
     
-    init(chore: String, due: String, at: String, notificationIds: [String]) {
+    init(chore: String, due: String, at: String, recurring: Repeating, notificationIds: [String]) {
         id = UUID()
         self.chore = chore
         self.due = due
         self.at = at
+        self.recurring = recurring
         self.notificationIds = notificationIds
     }
     
