@@ -294,4 +294,60 @@ class ChoreStore: ObservableObject {
         
     }
     
+    func getMonthSuffix(date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        var dateWithSuffix: String = ""
+        
+        if let dateFromString = dateFormatter.date(from: date) {
+            
+            let calendar = Calendar.current
+            
+            let dayOfMonth = calendar.component(.day, from: dateFromString)
+            
+        
+            let suffix: String
+            
+            switch(dayOfMonth) {
+                
+            case 1, 21, 31:
+                suffix = "st"
+                
+            case 2, 22:
+                suffix = "nd"
+                
+            case 3, 23:
+                suffix = "rd"
+                
+            default:
+                suffix = "th"
+                
+            }
+            
+            dateWithSuffix = "\(dayOfMonth)\(suffix)"
+            
+        }
+        
+        return dateWithSuffix
+        
+    }
+    
+    func hasMonthlyChores() -> Bool {
+        
+        for each in choreList {
+            
+            if each.recurring == .monthly {
+                
+                return true
+                
+            }
+        }
+        
+        return false
+        
+    }
+    
 }

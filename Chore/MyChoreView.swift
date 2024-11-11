@@ -127,7 +127,7 @@ struct MyChoreView: View {
                 
                 List {
                     
-                    ForEach(choreStore.choreList.filter { $0.recurring == .weekly}) { chore in
+                    ForEach(choreStore.choreList.filter { $0.recurring == .weekly }) { chore in
                         Text("\(chore.chore) - repeating every \(choreStore.getWeekDayFor(date: chore.due)) at \(chore.at)")
                     }
                     
@@ -150,6 +150,41 @@ struct MyChoreView: View {
         }
     }
     
+    private var MonthlyChoreView: some View {
+        
+        VStack {
+            
+            Text("Monthly Chores")
+            
+            if choreStore.hasMonthlyChores() {
+                
+                List {
+                    
+                    ForEach(choreStore.choreList.filter { $0.recurring == .monthly }){ chore in
+                        
+                        Text("\(chore.chore) - repeating every month on the \(choreStore.getMonthSuffix(date: chore.due)) at \(chore.at)")
+                        
+                    }
+                    
+                    .onDelete { indexSet in
+                        
+                        indexSet.forEach { index in
+                            
+                            let chore = choreStore.choreList[index]
+                            
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                        }
+                    }
+                }
+            } else {
+                
+                Text("No monthly chores")
+                
+            }
+        }
+    }
+    
     var body: some View {
         
         VStack {
@@ -161,6 +196,8 @@ struct MyChoreView: View {
             dailyChoreView
             
             weeklyChoreView
+            
+            MonthlyChoreView
             
         }
         .onAppear {
