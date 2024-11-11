@@ -20,7 +20,7 @@ struct MyChoreView: View {
             
             if !choreStore.dueToday_Chores(list: choreStore.choreList) {
                 
-                Text("Nothing due")
+                Text("Nothing due today.")
                 
             } else {
                 
@@ -29,7 +29,7 @@ struct MyChoreView: View {
                     
                     ForEach(choreStore.choreList.filter { choreStore.isToday(day: "\($0.due) \($0.at)")}) { chore in
                         
-                        Text("\(chore.chore). due \(chore.due) at \(chore.at)")
+                        Text("\(chore.chore). due today at \(chore.at)")
                         
                     }
                     
@@ -52,13 +52,13 @@ struct MyChoreView: View {
         
         VStack {
             
-            Text("Upcoming Chores")
+            Text("Upcoming this Month")
             
             if choreStore.isOccupiedMonth() {
                 
                 List {
                     
-                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due) \($0.at)")}) { chore in
+                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due) \($0.at)") } .prefix(10) ) { chore in
                         Text("\(chore.chore) due \(chore.due) at \(chore.at)")
                     }
                     
