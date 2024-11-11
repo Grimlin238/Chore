@@ -58,7 +58,7 @@ struct MyChoreView: View {
                 
                 List {
                     
-                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due) \($0.at)") } .prefix(10) ) { chore in
+                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due) \($0.at)") && $0.due.contains(choreStore.getCurrentMonth()) } .prefix(10) ) { chore in
                         Text("\(chore.chore) due \(chore.due) at \(chore.at)")
                     }
                     

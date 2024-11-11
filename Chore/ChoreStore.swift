@@ -215,7 +215,7 @@ class ChoreStore: ObservableObject {
         
     }
     
-    private func getCurrentMonth() -> String {
+    func getCurrentMonth() -> String {
             
         let date = Date()
         
