@@ -70,6 +70,30 @@ class ChoreStore: ObservableObject {
         
     }
     
+    func removePastChores() {
+        
+        let currentDate = Date()
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        for each in choreList {
+            
+            if let oldDate = dateFormatter.date(from: each.due) {
+                
+                if oldDate < currentDate && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
+                    
+                    removeFromChoreList(chore: each.chore, due: each.due, at: each.at, recurring: each.recurring)
+                    
+                }
+            }
+        }
+        
+        saveChores()
+        
+    }
+    
     private func saveChores() {
         
         do {

@@ -202,6 +202,7 @@ struct MyChoreView: View {
         }
         .onAppear {
             
+            choreStore.removePastChores()
             choreStore.sortChoreList()
             
         }
