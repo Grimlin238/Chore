@@ -26,9 +26,9 @@ class ChoreStore: ObservableObject {
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
-        Help(header: "Help", body: "Press next to move to the next help item. Press previous to go back.Tap done to leave healp."),
+        Help(header: "Help", body: "Press next to move to the next help item. Press previous to go back. Tap done to leave healp."),
         Help(header: "Deleting a chore", body: "On the My Chores tab, swipe left on a chore, then tap delete."),
-        Help(header: "Adding a chore", body: "Tap the create a chore tab, then type something you want to be reminded about. select when you want to be reminded and if it's recurring. When you're finished, tap save to chores."),
+        Help(header: "Adding a chore", body: "Tap the create a chore tab, then type something you want to be reminded about, select when you want to be reminded and if it's recurring. When you're finished, tap save to chores."),
         Help(header: "Need Support? Gott a question or suggestion?", body: "Need a little help, or have questions/suggestions, tap done, then tap Get Support. You'll then be able to write an email to me.")
     ]
     
@@ -86,6 +86,11 @@ class ChoreStore: ObservableObject {
                     
                     removeFromChoreList(chore: each.chore, due: each.due, at: each.at, recurring: each.recurring)
                     
+                    let notificationIds = each.notificationIds
+                    
+                    notificationManager.cancelNotification(identifier: notificationIds)
+                    
+                    
                 }
             }
         }
@@ -131,6 +136,43 @@ class ChoreStore: ObservableObject {
             
             print("Error loading tasks. issue: \(error)")
         }
+        
+    }
+    
+    func dateFromStringToDate(date: String) -> Date {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        var newDate: Date = Date()
+        
+        if let convertedDate = dateFormatter.date(from: date) {
+            
+            newDate = convertedDate
+            
+        }
+        
+        return newDate
+        
+    }
+    
+    func timeFromStringToDate(date: String) -> Date {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "h:mm a"
+        
+        var newTime: Date = Date()
+        
+        if let convertedTime = dateFormatter.date(from: date) {
+            
+            newTime = convertedTime
+            
+        }
+        
+        return newTime
+        
     }
     
     func combine_Date(date: Date, time: Date) -> Date? {
@@ -185,7 +227,7 @@ class ChoreStore: ObservableObject {
         
         let formatter = DateFormatter()
         
-        formatter.dateFormat = "MMMM dd, yyyy h:mm a"
+        formatter.dateFormat = "MMM dd, yyyy"
         
         guard let date = formatter.date(from: day) else {
             
@@ -203,7 +245,7 @@ class ChoreStore: ObservableObject {
         
         let formatter = DateFormatter()
         
-        formatter.dateFormat = "MMMM dd, yyyy h:mm a"
+        formatter.dateFormat = "MMM dd, yyyy h:mm a"
         
         choreList.sort { item1, item2 in
             
@@ -222,18 +264,18 @@ class ChoreStore: ObservableObject {
     }
     
     
-    func dueToday_Chores(list: [Chore]) -> Bool {
+    func hasChoresDueToday() -> Bool {
     
-        for each in list {
+        for each in choreList {
             
-            let combinedDate = "\(each.due) \(each.at)"
             
-            if isToday(day: combinedDate) {
+            if isToday(day: each.due) {
                 
                 return true
                 
             }
         }
+        
         
         return false
         
@@ -254,7 +296,7 @@ class ChoreStore: ObservableObject {
     }
     
     func isOccupiedMonth() -> Bool {
-        
+    
         for each in choreList {
             
             if each.due.contains(getCurrentMonth()) && !isToday(day: "\(each.due) \(each.at)") {
@@ -375,3 +417,4 @@ class ChoreStore: ObservableObject {
     }
     
 }
+

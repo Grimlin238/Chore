@@ -24,7 +24,7 @@ class NotificationManager: ObservableObject {
         
         switch(recurring) {
             
-        case .none:
+        case .no:
             
             let intervals: [TimeInterval] = [
                 -14 * 24 * 60 * 60,

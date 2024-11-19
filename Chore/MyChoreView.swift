@@ -11,26 +11,20 @@ struct MyChoreView: View {
     
     @EnvironmentObject var choreStore: ChoreStore
     
-    
     private var dueTodayView: some View {
         
         VStack {
             
             Text("Due Today")
             
-            if !choreStore.dueToday_Chores(list: choreStore.choreList) {
-                
-                Text("Nothing due today.")
-                
-            } else {
-                
+            if choreStore.hasChoresDueToday() {
                 
                 List{
                     
-                    ForEach(choreStore.choreList.filter { choreStore.isToday(day: "\($0.due) \($0.at)")}) { chore in
-                        
-                        Text("\(chore.chore). due today at \(chore.at)")
-                        
+                    ForEach(choreStore.choreList.filter { choreStore.isToday(day: "\($0.due)")}) { chore in
+
+                            Text("\(chore.chore). Due today at \(chore.at)")
+                    
                     }
                     
                     .onDelete {
@@ -44,6 +38,10 @@ struct MyChoreView: View {
                         }
                     }
                 }
+            } else {
+                
+                Text("Nothing due today")
+                
             }
         }
     }
@@ -58,7 +56,7 @@ struct MyChoreView: View {
                 
                 List {
                     
-                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due) \($0.at)") && $0.due.contains(choreStore.getCurrentMonth()) } .prefix(10) ) { chore in
+                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: "\($0.due)") && $0.due.contains(choreStore.getCurrentMonth()) } .prefix(10) ) { chore in
                         Text("\(chore.chore) due \(chore.due) at \(chore.at)")
                     }
                     
@@ -187,24 +185,25 @@ struct MyChoreView: View {
     
     var body: some View {
         
-        VStack {
-            
-            dueTodayView
-            
-            upComingChoresView
-            
-            dailyChoreView
-            
-            weeklyChoreView
-            
-            MonthlyChoreView
-            
-        }
+            VStack {
+                
+                dueTodayView
+                
+                upComingChoresView
+                
+                dailyChoreView
+                
+                weeklyChoreView
+                
+                MonthlyChoreView
+                
+            }
+        
         .onAppear {
             
             choreStore.removePastChores()
             choreStore.sortChoreList()
-            
+
         }
     }
 }

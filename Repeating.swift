@@ -9,13 +9,12 @@ import Foundation
 
 enum Repeating: String, CaseIterable, Codable {
     
-    case none = "None"
+    case no = "No"
     
     case daily = "Daily"
     
     case weekly = "Weekly"
     
     case monthly = "Monthly"
-    
-    
+        
 }

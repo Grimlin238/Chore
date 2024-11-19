@@ -16,7 +16,7 @@ struct AddChoreView: View {
     @State private var userInput: String = ""
     @State private var showSuccessConformation = false
     
-    @State private var recurrsive: Repeating = .none
+    @State private var recurrsive: Repeating = .no
     private var textFieldView: some View {
         
         VStack {
@@ -107,14 +107,14 @@ struct AddChoreView: View {
     
     func saveChore(chore: String) {
         
-        let savedChore = userInput
+        let savedChore = chore
         let date = choreStore.toString_Date(date: selectedDate)
         
         let time = choreStore.toString_Time(date: selectedTime)
         
         if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
             
-            let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(userInput) on \(date) at \(time)", eventDate: combinedDate, recurring: recurrsive)
+            let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(savedChore) on \(date) at \(time)", eventDate: combinedDate, recurring: recurrsive)
             
             choreStore.addToChoreList(chore: savedChore, due: date, at: time, recurring: recurrsive, notificationIds: notificationIds)
             
