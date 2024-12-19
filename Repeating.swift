@@ -9,7 +9,7 @@ import Foundation
 
 enum Repeating: String, CaseIterable, Codable {
     
-    case no = "No"
+    case none = "None"
     
     case daily = "Daily"
     

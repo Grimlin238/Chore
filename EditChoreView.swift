@@ -20,7 +20,7 @@ struct EditChoreView: View {
     
     @State var selectedTime: Date
 
-    init(enjectedChore: String = "Default", enjectedDate: String = "", enjectedTime: String = "", enjectedRecursiveValue: Repeating = .no) {
+    init(enjectedChore: String = "Default", enjectedDate: String = "", enjectedTime: String = "", enjectedRecursiveValue: Repeating = .none) {
     
         _enjectedChore = State(initialValue: enjectedChore)
         

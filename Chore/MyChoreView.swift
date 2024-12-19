@@ -11,6 +11,9 @@ struct MyChoreView: View {
     
     @EnvironmentObject var choreStore: ChoreStore
     
+    @State private var refreshId = UUID()
+    
+    
     private var dueTodayView: some View {
         
         VStack {
@@ -189,21 +192,26 @@ struct MyChoreView: View {
                 
                 dueTodayView
                 
-                upComingChoresView
+                // upComingChoresView
                 
-                dailyChoreView
+                // dailyChoreView
                 
-                weeklyChoreView
+                // weeklyChoreView
                 
-                MonthlyChoreView
+                // MonthlyChoreView
                 
             }
         
+            .id(refreshId)
+        
         .onAppear {
             
-            choreStore.removePastChores()
+            refreshId = UUID()
+            
+            // choreStore.removePastChores()
             choreStore.sortChoreList()
 
+            print("chores: \(choreStore.choreList)")
         }
     }
 }

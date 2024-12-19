@@ -44,6 +44,9 @@ class ChoreStore: ObservableObject {
     func addToChoreList(chore: String, due: String, at: String, recurring: Repeating, notificationIds: [String]) {
         
         choreList.append(Chore(chore: chore, due: due, at: at, recurring: recurring, notificationIds: notificationIds))
+        print("List after adding: \(choreList)")
+        
+        print("List after adding chores: \(choreList)")
         
         saveChores()
         
@@ -82,7 +85,7 @@ class ChoreStore: ObservableObject {
             
             if let oldDate = dateFormatter.date(from: each.due) {
                 
-                if oldDate < currentDate && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
+                if oldDate < currentDate {
                     
                     removeFromChoreList(chore: each.chore, due: each.due, at: each.at, recurring: each.recurring)
                     
