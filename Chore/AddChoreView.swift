@@ -112,7 +112,6 @@ struct AddChoreView: View {
         
         let time = choreStore.toString_Time(date: selectedTime)
 
-        print("recurrsive value: \(recurrsive)")
         if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
             
             let notificationIds = notificationManager.scheduleNotification(title: "Chore Reminder!", body: "Hey There! Don't forget your scheduled chore: \(savedChore) on \(date) at \(time)", eventDate: combinedDate, recurring: recurrsive)
